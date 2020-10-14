@@ -10,6 +10,7 @@
       push+shift/pop+unshift 先进先出队列 || push/pop栈 后近先出    
       queue 的结构如果做成队列的话，就是广度优先算法，如果实现成栈的话，那么就是深度优先算法。  
 
+
 相关资料
 - [ ] https://dev.to/edisonnpebojot/data-structure-algorithm-chapter-01-2538
 - [ ] https://github.com/trekhleb/javascript-algorithms/blob/master/README.zh-CN.md
