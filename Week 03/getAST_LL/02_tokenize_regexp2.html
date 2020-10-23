@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>词法分析</title>
+</head>
+<body>
+    <script>
+        /* 
+         * 定义一个正则表达式。 |或关系，每次只匹配一个
+         * 正则表达式后的"g"是一个表示全局搜索选项或标记，将在整个字符串查找并返回所有匹配结果。
+         * (x) 它会匹配 'x' 并且记住匹配项,()被称为捕获括号
+         * [xyz] 一个字符集合。匹配方括号中的任意字符，包括转义序列。
+         * + 匹配前面一个表达式 1 次或者多次。
+         * lastIndex 是正则表达式的一个可读可写的整型属性，用来指定下一次匹配的起始索引。
+         * 参考：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions
+         * https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp/lastIndex
+         * https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/function*
+         * https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/throw
+         */
+        var regexp = /([0-9\.]+)|([ \t]+)|([\r\n]+)|(\*)|(\/)|(\+)|(\-)/g;
+
+        /*
+         * regexp对应字符集的名称：数字，空白符(空格和tab)，行终止符(回车和换行)，乘号，除号，加号，减号。
+         */
+        var dictionary = ["Number", "Whitespace", "LineTerminator", "*", "/", "+", "-"];
+
+        /*
+         * 词法分析函数，获取token
+         */
+        function* tokenize(source) {
+            var result = null;
+            var lastIndex = 0; //函数级别的变量 用来判断，匹配的长度与前进的长度是否一样。如果不一样说明有不能识别的字符
+            while(true) {
+                lastIndex = regexp.lastIndex; //取出lastIndex 用于跟新生成的regexp的lastIndex作比较。lastIndex 是正则表达式的一个可读可写的整型属性，用来指定下一次匹配的起始索引。
+                // exec 一个在字符串中执行查找匹配的RegExp方法，它返回一个数组（未匹配到则返回 null）。
+                result = regexp.exec(source);
+
+                // 如果没有匹配到 跳出while循环
+                if(!result)
+                    break;
+
+                if(regexp.lastIndex - lastIndex > result[0].length) {
+                    //break; //这里break， 应该throw  error
+                    throw '不识别';
+                }
+
+                // 定义一个token
+                let token = {
+                    type: null,
+                    value: null
+                }
+
+                // 如果匹配到 打印出匹配的token和对应的名称   tips:利用|和g 制造了result和dictionary之间的对应关系 
+                for(var i = 1; i < dictionary.length; i++) {
+                    if(result[i]) {
+                        //console.log(dictionary[i-1]);
+                        token.type = dictionary[i-1];
+                    }
+                }
+                
+                //onsole.log(result);
+                token.value = result[0];
+                yield token;
+            }
+            yield {
+                type: "EOF"
+            }
+        }
+
+        //tokenize("1024 + 25 * 25");
+        for(let token of tokenize("1024 + 10 * 25")) {
+            console.log(token);
+        }
+
+    </script>
+</body>
+</html>
