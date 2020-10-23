@@ -13,13 +13,16 @@
   Whitespace: <SP>  
   LineTerminator: <LF><CR>  
 
+
   语法定义：
   <Expression>::=  
-  <AdditiveExpression><EOF>  
+  <AdditiveExpression><EOF>
+
   <AdditiveExpression>::=  
   <MultiplicativeExpression>  
   |<AdditiveExpression><+><MultiplicativeExpression>  
   |<AdditiveExpression><-><MultiplicativeExpression>  
+  
   <MultiplicativeExpression>::=  
   <Number>  
   |<MultiplicativeExpression><*><Number>  
