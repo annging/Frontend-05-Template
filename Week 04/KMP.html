@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KMP字符串模式匹配算法 —— 字符串分析法</title>
+</head>
+<body>
+    <script>
+
+        /*
+         * 利用自重复特性，首先获取 跳转表格 ，然后 进行匹配
+         */
+
+        function kmp(source, pattern) {
+             // 计算跳转表格
+            let table = new Array(pattern.length).fill(0);
+
+            {
+                let i = 1, j = 0; // i自重复字符串开始位置 j已重复字数
+
+                while(i < pattern.length) {
+                    if(pattern[i] === pattern[j]) { // 匹配上了
+                        ++j, ++i;
+                        table[i] = j;
+                    } else {
+                        if(j > 0) {
+                            j = table[j];
+                        } else {
+                            ++i;
+                        }
+                    }
+                }
+                console.log(table);
+            }
+            {
+                let i = 0, j = 0;
+                while(i < source.length) {
+                    
+                    if(pattern[j] === source[i]) {
+                        ++i, ++j;
+                    } else {
+                        if(j > 0) {
+                            j = table[j];
+                        } else {
+                            ++i;
+                        }
+                    }
+                    // pattern 匹配到头 匹配上了
+                    if(j === pattern.length) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        // a a b a a a c
+        // 0 0 1 0 1 2 2
+        // kmp("", "aabaaac");
+
+        console.log(kmp("aabaaacbaabaaac", "aabaaac"));
+        
+
+    </script>
+</body>
+</html>

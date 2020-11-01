@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>字典树 —— 字符串分析法</title>
+</head>
+<body>
+    <script>
+        /* 
+         * 字典树只会存储字符串 所以用Object 或者Map来存储没有区别！？
+         *
+         */
+        let $ = Symbol("$");
+        class Trie {
+            constructor() {
+                this.root = Object.create(null); // 干净 避免受到Object.prototype 原型上的污染？
+            }
+
+            // insert方法 把一个字符串插入字典树
+            insert(word) {
+                let node = this.root; // 从root开始
+                for(let c of word) {
+                    // 如果子树不存在, 创建子树
+                    if(!node[c]) {
+                        node[c] = Object.create(null);
+                    }
+                    // node到下一个层级
+                    node = node[c];
+                }
+
+                // ab 和 abc不同   所以ab后面要有截至符，这里用symbol。     $ = Symbol("$");
+                if(!($ in node)) {
+                    node[$] = 0;
+                }
+                node[$] ++
+            }
+
+            // most方法 找出出现最多的字符串
+            most() {
+                let max = 0;
+                let maxWord = null;
+                let visit = (node, word) => {
+                    if(node[$] && node[$] > max) {
+                        max = node[$];
+                        maxWord = word;
+                    }
+                    for(let p in node) {
+                        visit(node[p], word + p);
+                    }
+                }
+                visit(this.root, "");
+                console.log(maxWord, max);
+            }
+        }
+
+        // randomWord方法 产生随机字符串
+        function randomWord(length) {
+            var s = "";
+            for(let i = 0; i < length; i++) {
+                s += String.fromCharCode(Math.random() * 26 + "a".charCodeAt(0));
+            }
+            return s;
+        }
+
+        let trie = new Trie();
+
+        for(let i = 0; i < 5; i++) {
+            trie.insert(randomWord(4));
+        }
+    </script>
+</body>
+</html>
