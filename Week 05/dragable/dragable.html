@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>基本拖拽 —— 使用Rang实现DOM精确操作</title>
+    <style>
+        #dragable {
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">文字 文字 文字 文字 
+        文字 文字 文字 文字 
+        文字 文字 文字 文字 
+        文字 文字 文字 文字 
+        文字 文字 文字 文字 
+        文字 文字 文字 文字 
+        文字 文字 文字 文字 
+        文字 文字 文字 文字 
+        文字 文字 文字 文字 
+        文字 文字 文字 文字 
+        文字 文字 文字 文字 
+        文字 文字 文字 文字 
+        文字 文字 文字 文字 
+        文字 文字 文字 文字 
+        文字 文字 文字 文字 
+        文字 文字 文字 文字 
+        文字 文字 文字 文字 
+        文字 文字 文字 文字 
+    </div>
+    <div id="dragable"></div>
+    <script>
+        /**
+         *  使用mousedown mousemove mouseup 来模拟拖拽
+         *  mousemove 和mouseup 需要在doucment上监听,如果在dragbale上监听，鼠标过快会出现奇怪的现象。
+         *  参考： https://developer.mozilla.org/zh-CN/docs/Web/API/CSS_Object_Model
+         * 
+        **/
+
+        let dragable =  document.getElementById("dragable");
+
+        let baseX = 0, baseY = 0;
+
+        dragable.addEventListener("mousedown", function(event) {
+            let startX = event.clientX, startY = event.clientY; //起始点
+            let up = event => {
+                baseX = baseX + event.clientX - startX;
+                baseY = baseY + event.clientY - startY;
+                document.removeEventListener("mousemove", move);
+                document.removeEventListener("mouseup", up)
+            }
+            let move = event => {
+               //dragable.style.transform = `translate(${baseX + event.clientX - startX}px, ${baseY + event.clientY - startY}px)`
+               let range =  getNearest(event.clientX, event.clientY);
+               range.insertNode(dragable);
+            }
+            document.addEventListener("mousemove", move);
+            document.addEventListener("mouseup", up)
+        })
+
+        let ranges = [];
+        let conainer = document.getElementById("container");
+        for(let i = 0; i < container.childNodes[0].textContent.length; i++) {
+            let range = document.createRange();
+            range.setStart(conainer.childNodes[0], i);
+            range.setEnd(conainer.childNodes[0], i);
+
+            console.log(range.getBoundingClientRect()); // CSSOM
+            ranges.push(range);
+        }
+
+
+        //找最近的range
+        function getNearest(x, y) {
+            let min = Infinity;
+            let nearest = null;
+            
+            for(let range of ranges) {
+                let rect = range.getBoundingClientRect();  // range的getBoundingClientRect会变，所以随用随取。
+                let distance = (rect.x -x) ** 2 + (rect.y - y) ** 2;
+                if(distance < min) {
+                    nearest = range;
+                    min = distance;
+                }
+            }
+
+            return nearest;
+        }
+
+        document.addEventListener("selectstart", event => event.preventDefault());
+    </script>
+</body>
+</html>

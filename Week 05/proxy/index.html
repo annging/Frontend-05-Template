@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>proxy与双向绑定</title>
+    <style>
+        #color {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <input id="r" type="range" min=0 max=255 />
+    <input id="g" type="range" min=0 max=255 />
+    <input id="b" type="range" min=0 max=255 />
+    <div id="color"></div>
+
+    <!--
+        Proxy 对象用于定义基本操作的自定义行为（如属性查找、赋值、枚举、函数调用等）。
+        参考： https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy
+
+    -->
+    <!--<script src="base.js"></script>-->
+    <script src="reactive_resp.js"></script>
+</body>
+</html>
