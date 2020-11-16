@@ -1,5 +1,5 @@
 学习笔记  
-###语言的分类
+### 语言的分类
 - 按用途  
     数据描述语言： JSON, HTML, XAML. SQL,CSS  
     编程语言：C, C++, Java, C#, Python, Ruby, Perl, Lisp, T-SQL, Clojure, Haskell, JavaScript  
