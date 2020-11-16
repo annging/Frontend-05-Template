@@ -15,6 +15,6 @@
 
 - String Template
     模板字面量 是允许嵌入表达式的字符串字面量。你可以使用多行字符串和字符串插值功能。
-    https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/template_strings
+    https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/template_strings  
         `string text ${expression} string text`
-    
+
