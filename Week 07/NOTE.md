@@ -58,6 +58,6 @@ Completion Record:
 - 直接量/变量/this...
 #### 函数调用
 - Execution Context Stack 执行上下文
-- Runing Execution Context
+- Runing Execution Context  
     ![Execution Context](./assets/ExecutionContext.png)
 ### 5. Program/Module
