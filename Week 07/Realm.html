@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Reaml</title>
+    </head>
+    <body>
+        <div id="container"></div>
+        <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.5.10/dist/g6.min.js"></script>
+        <script>
+            /**
+             *  https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects
+             *  https://segmentfault.com/a/1190000012162360
+             *  https://g6.antv.vision/zh/examples/tree/compactBox#basicCompactBox
+             */
+            function getRealm() {
+                let set = new Set();
+                let objects = [
+                    // 函数属性
+                    eval,
+                    // uneval,
+                    isFinite,
+                    isNaN,
+                    parseFloat,
+                    parseInt,
+                    decodeURI,
+                    decodeURIComponent,
+                    encodeURI,
+                    encodeURIComponent,
+                    // 基本对象(一般对象、函数对象和错误对象)
+                    Object,
+                    Function,
+                    Boolean,
+                    Symbol,
+                    Error,
+                    AggregateError,
+                    EvalError,
+                    //InternalError,
+                    RangeError,
+                    ReferenceError,
+                    SyntaxError,
+                    TypeError,
+                    URIError,
+                    // 数字和日期对象
+                    Number,
+                    BigInt,
+                    Math,
+                    Date,
+                    // 字符串
+                    String,
+                    RegExp,
+                    // 可索引的集合对象
+                    Array,
+                    Int8Array,
+                    Uint8Array,
+                    Uint8ClampedArray,
+                    Int16Array,
+                    Uint16Array,
+                    Int32Array,
+                    Uint32Array,
+                    Float32Array,
+                    Float64Array,
+                    BigInt64Array,
+                    BigUint64Array,
+                    // 用键的集合对象
+                    Map,
+                    WeakMap,
+                    Set,
+                    WeakSet,
+                    // 控制抽象对象
+                    Promise,
+                    // Generator,
+                //  GeneratorFunction,
+                    // AsyncFunction,
+                    // 结构化数据
+                    ArrayBuffer,
+                    SharedArrayBuffer,
+                    DataView,
+                    Atomics,
+                    JSON,
+                    // 反射
+                    Reflect,
+                    Proxy,
+                ];
+                objects.forEach(o => set.add(o));
+
+                const realm = {
+                    id: 'Realm',
+                    children: objects.map(o => {
+                        return {
+                            id: o,
+                            children: [],
+                        };
+                    }),
+                };
+
+                const children = realm.children;
+
+                for (let i = 0; i < children.length; i++) {
+                    let o = children[i].id;
+                    for (let p of Object.getOwnPropertyNames(o)) {
+                        const d = Object.getOwnPropertyDescriptor(o, p);
+                        if ( (d.value !== null && typeof d.value === 'object') || typeof d.value === 'function' ) {
+                            if (!set.has(d.value)) {
+                                children[i].children.push({
+                                    id: `${o}.${p}`,
+                                    children: [],
+                                });
+                            }
+                        }
+                        if (d.get) {
+                            if (!set.has(d.get)) {
+                                children[i].children.push({
+                                    id: `${o}.${p}.[get]`,
+                                    children: [],
+                                });
+                            }
+                        }
+                        if (d.set) {
+                            if (!set.has(d.set)) {
+                                children[i].children.push({
+                                    id: `${o}.${p}.[set]`,
+                                    children: [],
+                                });
+                            }
+                        }
+                    }
+                }
+
+                return realm;
+            }
+            
+            function render(data) {
+                const width = document.getElementById('container').scrollWidth;
+                const height = document.getElementById('container').scrollHeight || 500;
+                let graph = new G6.TreeGraph({
+                    container: 'container',
+                    width,
+                    height,
+                    modes: {
+                        default: [
+                        {
+                            type: 'collapse-expand',
+                            onChange: function onChange(item, collapsed) {
+                            const data = item.get('model').data;
+                            data.collapsed = collapsed;
+                            return true;
+                            },
+                        },
+                        'drag-canvas',
+                        'zoom-canvas',
+                        ],
+                    },
+                    defaultNode: {
+                        size: 26,
+                        anchorPoints: [
+                        [0, 0.5],
+                        [1, 0.5],
+                        ],
+                    },
+                    defaultEdge: {
+                        type: 'cubic-horizontal',
+                    },
+                    layout: {
+                        type: 'compactBox',
+                        direction: 'LR',
+                        getId: function getId(d) {
+                        return d.id;
+                        },
+                        getHeight: function getHeight() {
+                        return 16;
+                        },
+                        getWidth: function getWidth() {
+                        return 16;
+                        },
+                        getVGap: function getVGap() {
+                        return 10;
+                        },
+                        getHGap: function getHGap() {
+                        return 100;
+                        },
+                    },
+                });
+
+                graph.node(function (node) {
+                    return {
+                        label: node.id.name || node.id,
+                        labelCfg: {
+                            offset: 10,
+                            position: node.children && node.children.length > 0 ? 'left' : 'right',
+                        },
+                    };
+                });
+
+                graph.data(data);
+                graph.render();
+                graph.fitView();
+            }
+
+            console.log(getRealm());
+            render(getRealm());
+        </script>
+    </body>
+</html>
