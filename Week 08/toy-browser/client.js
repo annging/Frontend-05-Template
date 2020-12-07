@@ -62,12 +62,14 @@ class Request {
                 // 释放连接
                 connection.end();
             })
-            resolve("");
         })
     }
 
     toString() {
-        return `${this.method} ${this.path} HTTP/1.1\r\n${Object.keys(this.headers).map(key => `${key}: ${this.headers[key]}`).join('\r\n')}\r\n\r\n${this.bodyText}`;
+        return `${this.method} ${this.path} HTTP/1.1\r
+${Object.keys(this.headers).map(key => `${key}: ${this.headers[key]}`).join('\r\n')}\r
+\r
+${this.bodyText}`
     }
 }
 
@@ -230,5 +232,6 @@ void async function() {
     });
 
     let response = await request.send();
+    console.log('response');
     console.log(response);
 }();
