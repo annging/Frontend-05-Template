@@ -113,6 +113,7 @@ function computeCSS(element) {
             // console.log("element", element, "匹配", rule);
             console.log(element.computeStyle);*/
 
+            // 计算优先级
             var sp = specificity(rule.selectors[0])
             var computedStyle = element.computedStyle
             for(var declaration of rule.declarations) {

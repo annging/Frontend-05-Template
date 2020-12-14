@@ -4,7 +4,7 @@
 
     {
         "name": "Launch Program",
-        "program": "${workspaceFolder}/Week 09/toy-browser/client.js",
+        "program": "${workspaceFolder}/Week 10/toy-browser/client.js",
         "request": "launch",
         "skipFiles": [
             "<node_internals>/**"
