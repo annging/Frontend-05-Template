@@ -10,8 +10,8 @@ DOM树中存储的是<font color=yellow>元素</font>和其它类型的节点（
 CSS选择器选中的是<font color=yellow>元素</font>。  
 CSS选择器选中的<font color=yellow>元素</font>，在排版时可能产生多个<font color=yellow>盒</font> 。  
 排版和渲染的基本单位是<font color=yellow>盒</font> 。  
-盒模型：
-![box-sizing](./assets/box-sizing.jpg )
+盒模型：  
+![box-sizing](./assets/box-sizing.jpg )  
 参考链接：[The_box_model](https://developer.mozilla.org/zh-CN/docs/Learn/CSS/Building_blocks/The_box_model).
 
 ### 正常流排版
