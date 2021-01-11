@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>把一个元素的所有子元素逆序</title>
+</head>
+<body>
+  <div id="a">
+    <span>1</span>
+    <p>2</p>
+    <a href="">3</a>
+    <div>4</div>
+    <span>5</span>
+  </div>
+  <script>
+    let element =  document.getElementById("a");
+    function reverseChildren(element) {
+      let l = element.childNodes.length;
+      while(l-- > 0) {
+        element.appendChild(element.childNodes[l]);
+      }
+    }
+
+    reverseChildren(element);
+  </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Range</title>
+</head>
+<body>
+  <div id="a">00000<span>111111</span>66666<p>222222</p>
+    <a href="">33333</a>
+    <div>4</div>
+    <span>5</span>
+  </div>
+  <script>
+    let range = new Range();
+    range.setStart(document.getElementById("a").childNodes[0], 3);
+    range.setEnd(document.getElementById("a").childNodes[2], 3)
+  </script>
+</body>
+</html>
