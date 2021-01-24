@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>animation-demo</title>
+    <style>
+        .el-wrapper {
+            width: 600px;
+            height: 250px;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid red;
+        }
+        .el-item {
+            width: 100px;
+            height: 100px;
+            background: lightyellow;
+            margin: 10px 0;
+        }
+        #el1.el-item {
+            background-color: lightyellow;
+        }
+        #el2.el-item {
+            background-color: lightblue;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li>entry 需要修改</li>
+        <li>时间线没加状态管理前：重启按钮最好在暂停以后再出现，不然再点击重启按钮会从头开始</li>
+        <li>reset以后就不能start了😢</li>
+    </ul>
+    <div class="el-wrapper">
+        <div class="el-item" id="el1"></div>
+    
+        <div class="el-item" id="el2"></div>
+    </div>
+    <div class="btn-group">
+        <button id="start">start</button>
+        <button id="pause">pause</button>
+        <button id="resume">resume</button>
+        <button id="reset">reset</button>
+    </div>
+    <script type="module" src="./example.js"></script>
+</body>
+</html>
