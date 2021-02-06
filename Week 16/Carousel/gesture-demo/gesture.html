@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gesture 需要启动server本地运行</title>
+</head>
+<body oncontextmenu="event.preventDefault()"> <!-- 防止右键弹出菜单 -->
+    
+    <script type="module">
+        import { enableGesture } from "../gesture.js"
+        enableGesture(document.documentElement);
+    </script>
+</body>
+</html>
