@@ -1,12 +1,16 @@
 # 发布系统
-## 利用 express 编写服务器
+- server 服务器
+- publish-server 实现发布文件到服务器
+- publish-tool 发送 发布 命令
+## 1.利用 express 编写服务器
 - [express](https://expressjs.com/en/starter/installing.html)
 - [openssh](https://www.openssh.com/)
 - ```
     scp -P 8022 ./* winter@127.0.0.1:/home/winter/server
   ```
-## publish-server: 用node 启动一个简单的server
-## publish-tool: 发送请求的功能
+## 2.publish-server: 用node 启动一个简单的server 向服务器部署文件
+## 3.publish-tool: 发送 发布 命令的功能  
+---
 ## 实现多文件发布
 - [npm archiver](https://www.npmjs.com/package/archiver) 
 - [npm unzipper](https://www.npmjs.com/package/unzipper)
